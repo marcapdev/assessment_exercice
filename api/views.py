@@ -1,6 +1,6 @@
 from rest_framework import generics
 
-from users.serializers import UserSerializer
+from api.serializers import UserSerializer
 
 
 # Create your views here.
