@@ -17,7 +17,7 @@ services:
     build: .
     volumes:
       - .:/code
-    command: python /code/backend/manage.py runserver 0.0.0.0:8000 --settings=conf.settings.local
+    command: python /code/manage.py runserver 0.0.0.0:8000 --settings=conf.local
     ports:
       - "8000:8000"
     environment:
@@ -29,16 +29,21 @@ services:
       - redis
   celery:
     build: .
-    command: celery -A cfehome worker -l info&
+    command: celery -A backend_assessment_exercice worker -l info&
+    environment:
+      - DJANGO_SETTINGS_MODULE=conf.local
     depends_on:
       - web
       - db
       - redis
   flower:
     build: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=conf.local
     ports:
       - "5555:5555"
-    command: celery -A cfehome flower --address=0.0.0.0&
+    command: celery -A backend_assessment_exercice flower --address=0.0.0.0&
     depends_on:
       - celery
+      - redis
 
