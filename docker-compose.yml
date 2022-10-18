@@ -1,0 +1,44 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  redis:
+    image: 'redis:alpine'
+  web:
+    build: .
+    volumes:
+      - .:/code
+    command: python /code/backend/manage.py runserver 0.0.0.0:8000 --settings=conf.settings.local
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+      - redis
+  celery:
+    build: .
+    command: celery -A cfehome worker -l info&
+    depends_on:
+      - web
+      - db
+      - redis
+  flower:
+    build: .
+    ports:
+      - "5555:5555"
+    command: celery -A cfehome flower --address=0.0.0.0&
+    depends_on:
+      - celery
+
