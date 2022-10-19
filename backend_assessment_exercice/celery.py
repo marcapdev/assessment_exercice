@@ -1,10 +1,9 @@
 import os
 
 from celery import Celery, shared_task
-from django.conf import settings
 
 # Set the default Django settings module for the 'celery' program.
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings') moved to config files
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings') moved to config files (conf.local and conf.production)
 
 app = Celery('backend_assessment_exercice', broker="redis://redis:6379/0")
 

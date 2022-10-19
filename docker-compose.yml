@@ -29,6 +29,8 @@ services:
       - redis
   celery:
     build: .
+    volumes:
+      - .:/code
     command: celery -A backend_assessment_exercice worker -l info&
     environment:
       - DJANGO_SETTINGS_MODULE=conf.local
@@ -38,6 +40,8 @@ services:
       - redis
   flower:
     build: .
+    volumes:
+      - .:/code
     environment:
       - DJANGO_SETTINGS_MODULE=conf.local
     ports:
