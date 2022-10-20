@@ -18,17 +18,17 @@ class AbstractConfirmationManager(ABC):
         """
         pass
 
-    def get_tasks(self, sms=None, mail=None):
+    def run_tasks(self, sms=None, mail=None):
         """
-        Prepares subtask for celery to run
+        Runs task
         @param sms: List of phone contacts
         @param mail: List of mail contacts
         @return:
         """
         if sms is not None:
-            yield self.task_map.get('sms').subtask(sms)
+            self.task_map.get('sms')(sms)
         if mail is not None:
-            yield self.task_map.get('mail').subtask(mail)
+            self.task_map.get('mail')(mail)
 
 
 class ConfirmationManager(AbstractConfirmationManager):
@@ -38,8 +38,7 @@ class ConfirmationManager(AbstractConfirmationManager):
     }
 
     def send_confirmation(self, sms=None, mail=None):
-        g = group(super().get_tasks(sms=sms, mail=mail)).delay()
-        # In some cases task id might come at handy for tracking purposes
+        super().run_tasks(sms=sms, mail=mail)
 
 
 class MockupConfirmationManager(AbstractConfirmationManager):
@@ -49,7 +48,7 @@ class MockupConfirmationManager(AbstractConfirmationManager):
     }
 
     def send_confirmation(self, sms=False, mail=False):
-        g = group(super().get_tasks(sms=sms, mail=mail)).delay()
+        super().run_tasks(sms=sms, mail=mail)
         # In some cases task id might come at handy for tracking purposes
 
 
