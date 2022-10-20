@@ -23,11 +23,11 @@ def send_mail(contacts: "list"):
 
 @shared_task(autoretry_for=(Exception,), retry_kwargs={'max_retries': 2, 'countdown': 2})
 def send_sms_mockup(contacts: "list"):
-    time.sleep(20)
+    time.sleep(2)
     return f"Success MAIL MOCKUP WITH {settings.SMS_PROVIDER} to {contacts}"
 
 
 @shared_task(autoretry_for=(Exception,), retry_kwargs={'max_retries': 2, 'countdown': 2})
 def send_mail_mockup(contacts: "list"):
-    time.sleep(20)
+    time.sleep(2)
     return f"Success MAIL MOCKUP WITH {settings.SMTP_PROVIDER} to {contacts}"
