@@ -17,7 +17,7 @@ services:
     build: .
     volumes:
       - .:/code
-    command: python /code/manage.py runserver 0.0.0.0:8000 --settings=conf.local
+    command: python /code/manage.py runserver 0.0.0.0:8000 --settings=${SETTINGS}
     ports:
       - "8000:8000"
     environment:
@@ -33,7 +33,7 @@ services:
       - .:/code
     command: celery -A backend_assessment_exercice worker -l info&
     environment:
-      - DJANGO_SETTINGS_MODULE=conf.local
+      - DJANGO_SETTINGS_MODULE=${SETTINGS}
     depends_on:
       - web
       - db
@@ -43,7 +43,7 @@ services:
     volumes:
       - .:/code
     environment:
-      - DJANGO_SETTINGS_MODULE=conf.local
+      - DJANGO_SETTINGS_MODULE=${SETTINGS}
     ports:
       - "5555:5555"
     command: celery -A backend_assessment_exercice flower --address=0.0.0.0&

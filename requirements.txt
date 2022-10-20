@@ -7,3 +7,4 @@ psycopg2
 celery[redis]
 flower
 django-phonenumber-field[phonenumbers]
+django-sms
