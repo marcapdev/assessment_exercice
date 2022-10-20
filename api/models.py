@@ -12,3 +12,10 @@ class User(models.Model):
     hobbies = models.TextField(_("hobbies"), blank=True)
     validated_phone = models.BooleanField(_("validated phone"), blank=False, null=False, default=False)
     validated_email = models.BooleanField(_("validated email"), blank=False, null=False, default=False)
+
+    class Meta:
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
+
+    def __str__(self):
+        return f'first_name: {self.first_name}, last_name: {self.last_name}'
