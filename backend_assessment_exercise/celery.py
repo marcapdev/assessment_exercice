@@ -5,7 +5,7 @@ from celery import Celery, shared_task
 # Set the default Django settings module for the 'celery' program.
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings') moved to config files (conf.local and conf.production)
 
-app = Celery('backend_assessment_exercice', broker="redis://redis:6379/0")
+app = Celery('backend_assessment_exercise', broker="redis://redis:6379/0")
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.

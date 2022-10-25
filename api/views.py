@@ -2,16 +2,19 @@ from django.db import transaction
 from kombu.exceptions import OperationalError
 from rest_framework import generics
 from django.utils.translation import gettext_lazy as _
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.generics import get_object_or_404
 
 from api.confirmation.manager import ConfirmationBuilder
 from api.models import User
-from api.serializers import UserSerializer
-from backend_assessment_exercice.exceptions import ServiceUnavailableError
+from api.serializers import UserSerializer, NoPasswordAuthTokenSerializer
+from backend_assessment_exercise.exceptions import ServiceUnavailableError
 
 
 class UserCreateAPIView(
     generics.CreateAPIView):
     serializer_class = UserSerializer
+    permission_classes = ()
 
     @transaction.atomic
     def perform_create(self, serializer):
@@ -39,5 +42,27 @@ class UserDetailAPIView(
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    def get_object(self):
+        """
+        Get user logged via token
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+
+        request = self.request
+
+        filter_kwargs = {self.lookup_field: request.user.id}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+
+        self.check_object_permissions(self.request, obj)
+
+        return obj
+
 
 user_detail_view = UserDetailAPIView.as_view()
+
+
+class NoPasswordObtainAuthToken(ObtainAuthToken):
+    serializer_class = NoPasswordAuthTokenSerializer
+
+
+obtain_auth_token = NoPasswordObtainAuthToken.as_view()

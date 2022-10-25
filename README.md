@@ -4,9 +4,9 @@ El proyecto está preparado para lanzarse con docker.
 
 - Docker
     - Abrir terminal en la carpeta raiz del proyecto
-    - Lanzar el comando: ***SETTINGS="backend_assessment_exercice.conf.local" docker compose up*** para entorno local y
-      ***SETTINGS="backend_assessment_exercice.conf.production" docker compose up*** para testear entorno producción de forma local
-    - entrar en el contenedor de docker con nombre "web" y lanzar las migraciones de django (python manage.py migrate --settings=backend_assessment_exercice.conf.local)
+    - Lanzar el comando: ***SETTINGS="backend_assessment_exercise.conf.local" docker compose up*** para entorno local y
+      ***SETTINGS="backend_assessment_exercise.conf.production" docker compose up*** para testear entorno producción de forma local
+    - entrar en el contenedor de docker con nombre "web" y lanzar las migraciones de django (python manage.py migrate --settings=backend_assessment_exercise.conf.local)
     - He abierto el puerto 5555 para alojar el app flower para consultar el estado de las tareas asincronas
     
 ![Flower](https://user-images.githubusercontent.com/116147283/197024297-bbbeb723-275c-4c93-b21b-81af4f5bad7a.png)

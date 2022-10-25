@@ -8,3 +8,4 @@ celery[redis]
 flower
 django-phonenumber-field[phonenumbers]
 django-sms
+djangorestframework-simplejwt[crypto]
