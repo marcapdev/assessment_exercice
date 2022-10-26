@@ -70,11 +70,20 @@ Si se lanza sin docker anoto las versiones de python que he usado: Python 3.10.8
 - Adjunto también en el directorio raiz del repositorio un json con la colección de postman que he usado
   (BackendAssessment.postman_collection.json)
 - Registro:
-    - curl --location --request POST 'http://localhost:8000/api/1.0.0/signup/' --form 'first_name="Marc"' --form '
-      last_name="Amposta Pérez"' --form 'email="marc.amposta.perez93@gmail.com"' --form 'phone="+34 616650957"' --form '
-      hobbies="test"'
+    - curl --location --request POST 'http://localhost:8000/api/1.0.0/signup/' \
+      --form 'first_name="Marc"' \
+      --form 'last_name="Amposta Pérez"' \
+      --form 'email="marc.amposta.perez99@gmail.com"' \
+      --form 'phone="+34964052238"' \
+      --form 'hobbies="test de prueba para comprobar ...."' \
+      --form 'password="12341234@"'
 - Perfil:
-    - curl --location --request GET 'http://localhost:8000/api/1.0.0/profile/1'
+    - curl --location --request GET 'http://localhost:8000/api/1.0.0/profile' \
+--header 'Authorization: Token {{user_token}}'
+- Get token
+  - curl --location --request POST 'http://localhost:8000/api/1.0.0/api-token-auth/' \
+--form 'username="marc.amposta.perez96@gmail.com"' \
+--form 'password="12341234@"'
 
 # ¿Qué te ha parecido la prueba? ¿Te ha gustado? ¿Te ha parecido sencilla, media, compleja?
 
