@@ -1,9 +1,9 @@
+from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from django.utils.translation import gettext_lazy as _
 
 from api.models import User
-from django.contrib.auth import authenticate
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,8 +17,22 @@ class UserSerializer(serializers.ModelSerializer):
             'hobbies',
             'validated_phone',
             'validated_email',
+            'password'
         ]
         read_only_fields = ('validated_phone', 'validated_email')
+
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def create(self, validated_data):
+        model_class = self.Meta.model
+        user = model_class(**validated_data)
+        if 'password' in validated_data:
+            user.set_password(validated_data['password'])
+            user.save()
+
+        return user
 
 
 class NoPasswordAuthTokenSerializer(AuthTokenSerializer):

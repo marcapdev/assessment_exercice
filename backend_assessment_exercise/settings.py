@@ -91,10 +91,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = [
-    'api.auth_backend.NoPasswordAuthBackend',
-]
-
 REST_FRAMEWORK = {
 
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -134,3 +130,7 @@ CONFIRMATION_MANAGER_MODULE = "api.confirmation.manager"
 CELERY_IMPORTS = ('api.confirmation.celery_task',)
 
 AUTH_USER_MODEL = 'api.User'
+
+AUTHENTICATION_BACKENDS = [
+    'api.auth_backend.NoPasswordAuthBackend',
+]
