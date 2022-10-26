@@ -5,11 +5,14 @@ El proyecto está preparado para lanzarse con docker.
 - Docker
     - Abrir terminal en la carpeta raiz del proyecto
     - Lanzar el comando: ***SETTINGS="backend_assessment_exercise.conf.local" docker compose up*** para entorno local y
-      ***SETTINGS="backend_assessment_exercise.conf.production" docker compose up*** para testear entorno producción de forma local
-    - entrar en el contenedor de docker con nombre "web" y lanzar las migraciones de django (python manage.py migrate --settings=backend_assessment_exercise.conf.local)
+      ***SETTINGS="backend_assessment_exercise.conf.production" docker compose up*** para testear entorno producción de
+      forma local
+    - entrar en el contenedor de docker con nombre "web" y lanzar las migraciones de django (python manage.py migrate
+      --settings=backend_assessment_exercise.conf.local)
     - He abierto el puerto 5555 para alojar el app flower para consultar el estado de las tareas asincronas
-    
-![Flower](https://user-images.githubusercontent.com/116147283/197024297-bbbeb723-275c-4c93-b21b-81af4f5bad7a.png)
+    - Opcional lanzar test:
+        - python manage.py test --settings=backend_assessment_exercise.conf.local
+          ![Flower](https://user-images.githubusercontent.com/116147283/197024297-bbbeb723-275c-4c93-b21b-81af4f5bad7a.png)
 
 Si se lanza sin docker anoto las versiones de python que he usado: Python 3.10.8, pip 22.2.2.
 
@@ -17,7 +20,8 @@ Si se lanza sin docker anoto las versiones de python que he usado: Python 3.10.8
 
 - URLs propuestas para cada endpoint:
     - Registro: ^/api/VERSION_API/signup/$
-    - Perfil: ^/api/VERSION_API/profile/{{id}}$
+    - Perfil: ^/api/VERSION_API/profile/$
+    - Obtener Token Acceso: ^/api/VERSION_API/api-token-auth/$
 
 # ¿Cuántas consultas hace cada endpoint a la BD?
 
@@ -49,6 +53,18 @@ Si se lanza sin docker anoto las versiones de python que he usado: Python 3.10.8
 > phone", "api_user"."hobbies", "api_user"."validated_phone", "api_user"."validated_email" FROM "api_user" WHERE "
 > api_user"."id" = 1 LIMIT 21
 
+- Obtener Token
+    - Se hace 1 llamada
+        - La llamada es la sentencia select
+        - Ejemplo log DB
+
+> statement: SELECT "authtoken_token"."key", "authtoken_token"."user_id", "authtoken_token"."created", "api_user"."id"
+> , "api_user"."password", "api_user"."last_login", "api_user"."is_superuser", "api_user"."first_name", "api_user"."
+> last_name", "api_user"."is_staff", "api_user"."is_active", "api_user"."date_joined", "api_user"."phone", "api_user"."
+> email", "api_user"."hobbies", "api_user"."validated_phone", "api_user"."validated_email" FROM "authtoken_token" INNER
+> JOIN "api_user" ON ("authtoken_token"."user_id" = "api_user"."id") WHERE "authtoken_token"."key" = '
+> fc07442366bd80fea29100e9673684a3f5c15400' LIMIT 21
+
 # ¿Puedes poner un ejemplo de petición (tipo curl) por cada endpoint?
 
 - Adjunto también en el directorio raiz del repositorio un json con la colección de postman que he usado
@@ -75,6 +91,8 @@ Si se lanza sin docker anoto las versiones de python que he usado: Python 3.10.8
 - En el apartado de registrar y mostrar el estado de la validación del SMS y MAIL entiendo que estos campos siempre van
   a aparecer como no validados, ya que el alcance de la tarea no incluye el envío de los mensajes asi como la
   posterior validación por el usuario si no he entendido mal, tal vez habría destacado esto en el enunciado.
+- No tenía muy claro si aunque el password no aparece como uno de los inputs en la description de registro de usuario,
+  lo podemos añadir.
 
 # ¿Has aprendido algo con esta prueba?
 
@@ -102,9 +120,8 @@ Si se lanza sin docker anoto las versiones de python que he usado: Python 3.10.8
 
 # Después de hacer la prueba, ¿tienes algunas dudas extras sobre cómo trabajamos?
 
-- Tal vez lo que más curiosidad es ver que tipo de herramientas se usan y como está montado el proyeto
+- Me gustaria ver como se origanizan las tareas que tipos de herramientas se usan, como es la estructura del proyeto,
+  casos de usos y implementaciones más concretas
 
 # ¿Cambiarías algo de la prueba para completarla con algo que consideres importante?
 
-- Tal vez añadiría algún escenario que aparezca a menudo como tener que realizar alguna validación en el
-  serializador.

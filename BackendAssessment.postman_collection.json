@@ -26,17 +26,27 @@
 						},
 						{
 							"key": "email",
-							"value": "marc.amposta.perez93@gmail.com",
+							"value": "marc.amposta.perez96@gmail.com",
 							"type": "text"
 						},
 						{
 							"key": "phone",
-							"value": "+34 616650957 ",
+							"value": "+34964052238",
 							"type": "text"
 						},
 						{
 							"key": "hobbies",
-							"value": "test",
+							"value": "test de prueba para comprobar ....",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12341234@",
+							"type": "text"
+						},
+						{
+							"key": "validated_phone",
+							"value": "1",
 							"type": "text"
 						}
 					]
@@ -65,13 +75,19 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": []
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/{{version}}/profile/11",
+					"raw": "http://localhost:8000/api/{{version}}/profile",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -80,12 +96,90 @@
 					"path": [
 						"api",
 						"{{version}}",
-						"profile",
-						"11"
+						"profile"
 					]
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "getToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "marc.amposta.perez96@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12341234@",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/{{version}}/api-token-auth/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"{{version}}",
+						"api-token-auth",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"variable": [
