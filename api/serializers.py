@@ -19,30 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
             'hobbies',
             'validated_phone',
             'validated_email',
-            'password'
         ]
         read_only_fields = ('validated_phone', 'validated_email')
-
-        extra_kwargs = {
-            'password': {'write_only': True, "required": True, "allow_null": False}
-        }
-
-    def validate(self, data):
-        user = User(**data)
-
-        password = data.get('password')
-
-        errors = dict()
-        try:
-            password_validator.validate_password(password=password, user=user)
-
-        except exceptions.ValidationError as e:
-            errors['password'] = list(e.messages)
-
-        if errors:
-            raise serializers.ValidationError(errors)
-
-        return super(UserSerializer, self).validate(data)
 
     def create(self, validated_data):
         model_class = self.Meta.model

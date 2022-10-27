@@ -1,0 +1,25 @@
+from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth import get_user_model
+
+from api.models import User
+
+UserModel = get_user_model()
+
+
+class NoPasswordAuthBackend(ModelBackend):
+    """
+    Log in to Django without providing a password.
+    """
+
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            return UserModel._default_manager.get_by_natural_key(username)
+        except User.DoesNotExist:
+            return None
+
+    def get_user(self, user_id):
+        try:
+            user = UserModel._default_manager.get(pk=user_id)
+        except UserModel.DoesNotExist:
+            return None
+        return user
