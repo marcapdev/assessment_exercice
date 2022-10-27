@@ -29,7 +29,7 @@ class UserCreateAPIView(
         # if saved, send confirmation SMS and Mail
         try:
             manager_instance = ConfirmationBuilder.get_confirmation_manager_instance()
-            manager_instance.send_confirmation(sms=[user.phone.as_e164], mail=[user.email])
+            manager_instance.send_message(sms=[user.phone.as_e164], mail=[user.email])
         except OperationalError:
             raise ServiceUnavailableError(_("Couldn't send verification SMS and mail"))
 

@@ -5,11 +5,11 @@ import importlib
 from abc import ABC, abstractmethod
 
 
-class AbstractConfirmationManager(ABC):
+class AbstractMessageManager(ABC):
     task_map = {}  # maps sending protocol (sms | mail) with celery task
 
     @abstractmethod
-    def send_confirmation(self, sms=None, mail=None):
+    def send_message(self, sms=None, mail=None):
         """
         Sends confirmation sms and mails (To be implemented by child class)
         @param sms: List of phone contacts
@@ -31,30 +31,19 @@ class AbstractConfirmationManager(ABC):
             self.task_map.get('mail')(mail)
 
 
-class ConfirmationManager(AbstractConfirmationManager):
+class ConfirmationManager(AbstractMessageManager):
     task_map = {
-        'sms': celery_task.send_sms,
-        'mail': celery_task.send_mail,
+        'sms': celery_task.send_sms_task,
+        'mail': celery_task.send_mail_task,
     }
 
-    def send_confirmation(self, sms=None, mail=None):
+    def send_message(self, sms=None, mail=None):
         super().run_tasks(sms=sms, mail=mail)
-
-
-class MockupConfirmationManager(AbstractConfirmationManager):
-    task_map = {
-        'sms': celery_task.send_sms_mockup,
-        'mail': celery_task.send_mail_mockup,
-    }
-
-    def send_confirmation(self, sms=False, mail=False):
-        super().run_tasks(sms=sms, mail=mail)
-        # In some cases task id might come at handy for tracking purposes
 
 
 class ConfirmationBuilder:
     @staticmethod
-    def get_confirmation_manager_instance() -> 'AbstractConfirmationManager':
+    def get_confirmation_manager_instance() -> 'AbstractMessageManager':
         """
         Returns AbstractConfirmationManager implementation depending on environment (local / production)
         @rtype: AbstractConfirmationManager
