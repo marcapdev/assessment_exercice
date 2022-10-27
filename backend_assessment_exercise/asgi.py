@@ -1,5 +1,5 @@
 """
-ASGI config for backend_assessment_exercice project.
+ASGI config for backend_assessment_exercise project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend_assessment_exercice.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend_assessment_exercise.settings')
 
 application = get_asgi_application()

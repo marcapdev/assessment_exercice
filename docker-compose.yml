@@ -1,5 +1,5 @@
 version: "3.9"
-   
+
 services:
   db:
     image: postgres
@@ -8,9 +8,15 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=backend_assessment_exercise
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U postgres -d postgres'" ]
+      interval: 5s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
   redis:
     image: 'redis:alpine'
   web:
@@ -31,7 +37,7 @@ services:
     build: .
     volumes:
       - .:/code
-    command: celery -A backend_assessment_exercice worker -l info&
+    command: celery -A backend_assessment_exercise worker -l info&
     environment:
       - DJANGO_SETTINGS_MODULE=${SETTINGS}
     depends_on:
@@ -46,7 +52,7 @@ services:
       - DJANGO_SETTINGS_MODULE=${SETTINGS}
     ports:
       - "5555:5555"
-    command: celery -A backend_assessment_exercice flower --address=0.0.0.0&
+    command: celery -A backend_assessment_exercise flower --address=0.0.0.0&
     depends_on:
       - celery
       - redis

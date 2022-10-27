@@ -2,16 +2,18 @@ from django.db import transaction
 from kombu.exceptions import OperationalError
 from rest_framework import generics
 from django.utils.translation import gettext_lazy as _
+from rest_framework.generics import get_object_or_404
 
-from api.confirmation.manager import ConfirmationBuilder
+from api.message.manager import ConfirmationBuilder
 from api.models import User
 from api.serializers import UserSerializer
-from backend_assessment_exercice.exceptions import ServiceUnavailableError
+from backend_assessment_exercise.exceptions import ServiceUnavailableError
 
 
 class UserCreateAPIView(
     generics.CreateAPIView):
     serializer_class = UserSerializer
+    permission_classes = ()
 
     @transaction.atomic
     def perform_create(self, serializer):
@@ -23,10 +25,10 @@ class UserCreateAPIView(
         @return:
         """
         user = serializer.save()
-        # if saved, send confirmation SMS and Mail
+        # if saved, send message SMS and Mail
         try:
             manager_instance = ConfirmationBuilder.get_confirmation_manager_instance()
-            manager_instance.send_confirmation(sms=[user.phone.as_e164], mail=[user.email])
+            manager_instance.send_message(sms=[user.phone.as_e164], mail=[user.email])
         except OperationalError:
             raise ServiceUnavailableError(_("Couldn't send verification SMS and mail"))
 
@@ -38,6 +40,21 @@ class UserDetailAPIView(
     generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_object(self):
+        """
+        Get user logged via token
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+
+        request = self.request
+
+        filter_kwargs = {self.lookup_field: request.user.id}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+
+        self.check_object_permissions(self.request, obj)
+
+        return obj
 
 
 user_detail_view = UserDetailAPIView.as_view()

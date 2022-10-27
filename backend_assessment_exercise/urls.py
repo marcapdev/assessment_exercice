@@ -1,4 +1,4 @@
-"""backend_assessment_exercice URL Configuration
+"""backend_assessment_exercise URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
