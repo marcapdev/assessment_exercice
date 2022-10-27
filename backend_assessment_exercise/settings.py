@@ -130,6 +130,6 @@ CELERY_IMPORTS = ('api.message.celery_task',)
 
 AUTH_USER_MODEL = 'api.User'
 
-# AUTHENTICATION_BACKENDS = [
-#     'api.auth_backend.NoPasswordAuthBackend',
-# ]
+AUTHENTICATION_BACKENDS = [
+    'api.auth_backend.NoPasswordAuthBackend',
+]

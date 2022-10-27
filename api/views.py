@@ -65,4 +65,4 @@ class NoPasswordObtainAuthToken(ObtainAuthToken):
     serializer_class = NoPasswordAuthTokenSerializer
 
 
-obtain_auth_token = ObtainAuthToken.as_view()
+obtain_auth_token = NoPasswordObtainAuthToken.as_view()
