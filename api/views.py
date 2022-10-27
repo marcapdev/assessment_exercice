@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.generics import get_object_or_404
 
-from api.confirmation.manager import ConfirmationBuilder
+from api.message.manager import ConfirmationBuilder
 from api.models import User
 from api.serializers import UserSerializer, NoPasswordAuthTokenSerializer
 from backend_assessment_exercise.exceptions import ServiceUnavailableError
@@ -26,7 +26,7 @@ class UserCreateAPIView(
         @return:
         """
         user = serializer.save()
-        # if saved, send confirmation SMS and Mail
+        # if saved, send message SMS and Mail
         try:
             manager_instance = ConfirmationBuilder.get_confirmation_manager_instance()
             manager_instance.send_message(sms=[user.phone.as_e164], mail=[user.email])

@@ -1,5 +1,5 @@
 from celery import group
-from api.confirmation import celery_task
+from api.message import celery_task
 from django.conf import settings
 import importlib
 from abc import ABC, abstractmethod
@@ -11,7 +11,7 @@ class AbstractMessageManager(ABC):
     @abstractmethod
     def send_message(self, sms=None, mail=None):
         """
-        Sends confirmation sms and mails (To be implemented by child class)
+        Sends msn sms and mails (To be implemented by child class)
         @param sms: List of phone contacts
         @param mail: List of mail contacts
         @return:
@@ -48,6 +48,6 @@ class ConfirmationBuilder:
         Returns AbstractConfirmationManager implementation depending on environment (local / production)
         @rtype: AbstractConfirmationManager
         """
-        manager_mod = importlib.import_module(settings.CONFIRMATION_MANAGER_MODULE)
+        manager_mod = importlib.import_module(settings.MESSAGE_MANAGER_MODULE)
         manager_class = getattr(manager_mod, settings.CONFIRMATION_MANAGER_CLASS)
         return manager_class()

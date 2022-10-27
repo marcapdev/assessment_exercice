@@ -125,8 +125,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 VERSION_API = "1.0.0"
-CONFIRMATION_MANAGER_MODULE = "api.confirmation.manager"
-CELERY_IMPORTS = ('api.confirmation.celery_task',)
+MESSAGE_MANAGER_MODULE = "api.message.manager"
+CELERY_IMPORTS = ('api.message.celery_task',)
 
 AUTH_USER_MODEL = 'api.User'
 
