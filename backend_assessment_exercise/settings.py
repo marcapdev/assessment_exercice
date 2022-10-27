@@ -124,7 +124,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-VERSION_API = "1.0.0"
+VERSION_API = "1.1.0"
 MESSAGE_MANAGER_MODULE = "api.message.manager"
 CELERY_IMPORTS = ('api.message.celery_task',)
 
