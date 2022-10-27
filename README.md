@@ -10,9 +10,10 @@ El proyecto está preparado para lanzarse con docker.
     - entrar en el contenedor de docker con nombre "web" y lanzar las migraciones de django (python manage.py migrate
       --settings=backend_assessment_exercise.conf.local)
     - He abierto el puerto 5555 para alojar el app flower para consultar el estado de las tareas asincronas
+                ![Flower](https://user-images.githubusercontent.com/116147283/197024297-bbbeb723-275c-4c93-b21b-81af4f5bad7a.png)
+
     - Opcional lanzar test:
         - python manage.py test --settings=backend_assessment_exercise.conf.local
-          ![Flower](https://user-images.githubusercontent.com/116147283/197024297-bbbeb723-275c-4c93-b21b-81af4f5bad7a.png)
 
 Si se lanza sin docker anoto las versiones de python que he usado: Python 3.10.8, pip 22.2.2.
 
@@ -53,8 +54,8 @@ Si se lanza sin docker anoto las versiones de python que he usado: Python 3.10.8
 > phone", "api_user"."hobbies", "api_user"."validated_phone", "api_user"."validated_email" FROM "api_user" WHERE "
 > api_user"."id" = 1 LIMIT 21
 
-- Obtener Token
-    - Se hace 1 llamada
+- Obtener Token 
+    - Se hace 1 llamada si el usuario ya tiene token (en caso de no tener token 2 llamadas)
         - La llamada es la sentencia select
         - Ejemplo log DB
 
@@ -64,6 +65,7 @@ Si se lanza sin docker anoto las versiones de python que he usado: Python 3.10.8
 > email", "api_user"."hobbies", "api_user"."validated_phone", "api_user"."validated_email" FROM "authtoken_token" INNER
 > JOIN "api_user" ON ("authtoken_token"."user_id" = "api_user"."id") WHERE "authtoken_token"."key" = '
 > fc07442366bd80fea29100e9673684a3f5c15400' LIMIT 21
+
 
 # ¿Puedes poner un ejemplo de petición (tipo curl) por cada endpoint?
 
