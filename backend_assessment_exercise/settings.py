@@ -129,7 +129,3 @@ MESSAGE_MANAGER_MODULE = "api.message.manager"
 CELERY_IMPORTS = ('api.message.celery_task',)
 
 AUTH_USER_MODEL = 'api.User'
-
-# AUTHENTICATION_BACKENDS = [
-#     'api.auth_backend.NoPasswordAuthBackend',
-# ]
