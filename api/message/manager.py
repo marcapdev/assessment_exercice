@@ -26,9 +26,9 @@ class AbstractMessageManager(ABC):
         @return:
         """
         if sms is not None:
-            yield self.task_map.get('sms').subtask(sms)
+            yield self.task_map.get('sms').subtask(kwargs={"contacts": sms})
         if mail is not None:
-            yield self.task_map.get('mail').subtask(mail)
+            yield self.task_map.get('mail').subtask(kwargs={"contacts": mail})
 
 
 class ConfirmationManager(AbstractMessageManager):
