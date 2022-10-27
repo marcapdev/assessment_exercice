@@ -2,12 +2,11 @@ from django.db import transaction
 from kombu.exceptions import OperationalError
 from rest_framework import generics
 from django.utils.translation import gettext_lazy as _
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.generics import get_object_or_404
 
 from api.message.manager import ConfirmationBuilder
 from api.models import User
-from api.serializers import UserSerializer, NoPasswordAuthTokenSerializer
+from api.serializers import UserSerializer
 from backend_assessment_exercise.exceptions import ServiceUnavailableError
 
 
@@ -59,10 +58,3 @@ class UserDetailAPIView(
 
 
 user_detail_view = UserDetailAPIView.as_view()
-
-
-class NoPasswordObtainAuthToken(ObtainAuthToken):
-    serializer_class = NoPasswordAuthTokenSerializer
-
-
-obtain_auth_token = ObtainAuthToken.as_view()
