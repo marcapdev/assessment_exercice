@@ -86,20 +86,6 @@ class UserEndpointsTestCase(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_register_user_no_password(self):
-        post_data = {
-            "first_name": "Marc",
-            "last_name": "Amposta Pérez",
-            "email": "marc.amposta.perez97@gmail.com",
-            "phone": "+34964052238",
-            "hobbies": "test de prueba para comprobar ....",
-        }
-        request = self.factory.post(reverse("user-create"), post_data)
-        view = UserCreateAPIView.as_view()
-
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
     def test_register_user_no_email(self):
         post_data = {
             "first_name": "Marc",
